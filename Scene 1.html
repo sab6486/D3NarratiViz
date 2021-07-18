@@ -1,0 +1,71 @@
+<html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+
+<head>
+  <title>CS416 Final Assignment</title>
+</head>
+<body onload='init()'>
+  <h1 style="display:inline-block;">Video Games Sales Analysis</h1>
+  <h5 style="display:inline-block;">(1984-2020)</h5>
+  <p>Chart below</p>
+  <svg id="svgMain" align='center' width="1000" height="500"></svg>
+
+  <script>
+    async function init() {
+  //  data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsales.csv')
+    data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsalesplatform.csv')
+  //console.log(data);
+  // var Platform = data.map(function(d) { return d.Platform })
+  // var Salesdata = data.map(function(d) { return d.Global_Sales })
+  // console.log(Platform)
+  // console.log(Salesdata)
+  xs = d3.scaleLinear().domain([d3.min(data, function(d) { return +d.Global_Sales; }),d3.max(data, function(d) { return +d.Global_Sales; })]).range([0,900]);
+  console.log(xs.domain())
+  ys = d3.scaleBand().domain(data.map(d=>d.Platform)).range([0,400]).padding(0.2);
+  //const margin={top:50, right:20,bottom:20, left:50};
+//  console.log(ys.domain())
+//console.log(ys.bandwidth())
+//  cs = d3.scaleLinear().domain(data.map(d=>d.Platform)).range(['blue','orange']);
+  d3.select('svg')
+    .append('g')
+      .attr('transform','translate(70,30)') //${margin.left},${margin.top}
+      .selectAll('rect')
+      .data(data)
+      .enter()
+      .append('rect')
+        //.attr('x',20)
+        .attr('y',function(d,i) {return ys(d.Platform);})
+        .attr('width',function(d,i) {return xs(+d.Global_Sales);})
+        .attr('height',ys.bandwidth())
+        .style('fill','steelblue')
+  d3.select('svg')
+      .append('g')
+        .attr('transform','translate(70,430)')
+        .call(d3.axisBottom(xs))
+  d3.select('svg')
+    .append('g')
+    .attr('transform','translate(70,30)')
+    .call(d3.axisLeft(ys))
+
+  d3.select('svg')
+      .append("text")
+        //.attr("text-anchor", "end")
+        .attr('font-family', 'Saira')
+        .attr('font-weight', 'bold')
+        .attr('x', 500)
+        .attr('y',490)
+        .text('Global Sales (in Billions)');
+  d3.select('svg')
+      .append('text')
+      //.attr("text-anchor", "end")
+      .attr("font-family", "Saira")
+      .attr("font-weight", "bold")
+      .attr('transform','translate (20,250) rotate(-90)')
+    //  .attr('x', 100)
+    //  .attr('y',200)
+      .text('Platform');
+  }
+  </script>
+  <p>This chart is a chart</p>
+</body>
+</html>
