@@ -14,7 +14,7 @@
   <script>
     async function init() {
   //  data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsales.csv')
-    data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsalesplatform.csv')
+    data=await d3.csv('https://raw.githubusercontent.com/sab6486/sab6486.github.io/main/vgsalespublisher.csv')
   //console.log(data);
   // var Platform = data.map(function(d) { return d.Platform })
   // var Salesdata = data.map(function(d) { return d.Global_Sales })
@@ -22,7 +22,7 @@
   // console.log(Salesdata)
   xs = d3.scaleLinear().domain([d3.min(data, function(d) { return +d.Global_Sales; }),d3.max(data, function(d) { return +d.Global_Sales; })]).range([0,900]);
   console.log(xs.domain())
-  ys = d3.scaleBand().domain(data.map(d=>d.Platform)).range([0,400]).padding(0.2);
+  ys = d3.scaleBand().domain(data.map(d=>d.Publisher)).range([0,400]).padding(0.2);
   //const margin={top:50, right:20,bottom:20, left:50};
 //  console.log(ys.domain())
 //console.log(ys.bandwidth())
@@ -35,7 +35,7 @@
       .enter()
       .append('rect')
         //.attr('x',20)
-        .attr('y',function(d,i) {return ys(d.Platform);})
+        .attr('y',function(d,i) {return ys(d.Publisher);})
         .attr('width',function(d,i) {return xs(+d.Global_Sales);})
         .attr('height',ys.bandwidth())
         .style('fill','steelblue')
@@ -64,16 +64,20 @@
       .attr('transform','translate (20,250) rotate(-90)')
     //  .attr('x', 100)
     //  .attr('y',200)
-      .text('Platform');
+      .text('Pulisher');
   }
   function Scene1() {
     location.replace("index.html")
+  }
+  function Scene3() {
+    location.replace("Scene 3.html")
   }
   </script>
   <table>
     <tr>
       <td><p>This chart is a chart</p></td>
       <td><button onclick="Scene1()">Scene One</button></td>
+      <td><button onclick="Scene3()">Scene Three</button></td>
   </table>
 </body>
 </html>
