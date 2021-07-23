@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<style> /* set the CSS */
+
+div.tooltip {
+position: absolute;
+text-align: center;
+width: 80px;
+height: 15px;
+padding: 5px;
+font: 12px sans-serif;
+background: lightgrey;
+border-radius: 8px;
+}
+
+div1.tooltip {
+position: absolute;
+text-align: center;
+width: 300px;
+height: 15px;
+padding: 5px;
+font: 12px sans-serif;
+background: lightgrey;
+border-radius: 8px;
+}
+}
+
+</style>
+
+<html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+
+<head>
+  <title>CS416 Final Assignment</title>
+</head>
+<body onload='init()'>
+  <h1 style="display:inline-block;">Video Games Sales Analysis</h1>
+  <h5 style="display:inline-block;">(1984-2020)</h5>
+  <p>Scene3</p>
+  <svg id="svgMain" align='center' width="1000" height="500"></svg>
+  <script>
+    async function init() {
+  //  data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsales.csv')
+    data=await d3.csv('https://raw.githubusercontent.com/sab6486/sab6486.github.io/main/platform_year.csv')
+    data1=await d3.csv('https://raw.githubusercontent.com/sab6486/sab6486.github.io/main/publisher_year.csv')
+//     var values;
+//
+//    data.forEach(function(d){
+//    values = d3.nest()
+//   .key(function(d) {return d["Platform"];})
+//   .rollup((function(d) {
+//   return {
+//       Global_Sales: d3.sum(d, function(e) { return e["Global_Sales"]; }),
+//   };
+// }))
+// .entries(data);
+// });
+
+//console.log(values)
+  //console.log(data);
+  // var Platform = data.map(function(d) { return d.Platform })
+  // var Salesdata = data.map(function(d) { return d.Global_Sales })
+   //Year = data.map(function(d) { return d.Year })
+   //let result = objArray.map(a => a.foo);
+  // console.log(Platform)
+  // console.log(Salesdata)
+  //console.log(Year)
+  //xs = d3.scaleLinear().domain([d3.min(data, function(d) { return +d.Global_Sales; }),d3.max(data, function(d) { return +d.Global_Sales; })]).range([0,900]);
+  //console.log(xs.domain())
+  //ys = d3.scaleBand().domain(data.map(d=>d.Platform)).range([0,400]).padding(0.2);
+  //const margin={top:50, right:20,bottom:20, left:50};
+//  console.log(ys.domain())
+//console.log(ys.bandwidth())
+//  cs = d3.scaleLinear().domain(data.map(d=>d.Platform)).range(['blue','orange']);
+
+
+    }
+
+    function platform(data) {
+    //console.log('Hi from update');
+    console.clear();
+    d3.select('svg').selectAll('g').remove();
+    d3.select('svg').selectAll('text').remove();
+    var yearpicker = document.getElementById("selectyear").value;
+    // var fieldpicker = document.getElementById("selectfield").value;
+    console.log(yearpicker)
+    // console.log(fieldpicker)
+    filtered = data.filter(function(d) { return d.Year === yearpicker});
+     //console.log(filtered);
+     xs = d3.scaleLinear().domain([d3.min(filtered, function(d) { return +d.Global_Sales_Platform; }),d3.max(filtered, function(d) { return +d.Global_Sales_Platform; })]).range([0,900]);
+     //console.log(xs.domain())
+     //console.log(vfield)
+     ys = d3.scaleBand().domain(filtered  .map(d=>d.Platform)).range([0,400]).padding(0.2);
+
+     var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+      var svg = d3.select('svg')
+          .append('g')
+            .attr('transform','translate(70,30)') //${margin.left},${margin.top}
+            .selectAll('rect')
+            .data(filtered)
+            .enter()
+            .append('rect')
+            .on('mouseover', function(d,i) {
+                  div.style("opacity", 1)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY) + "px")
+                  div.html(d.Platform+' : '+d.Global_Sales_Platform+'M');
+                     })
+             .on('mouseout',function(){div.style('opacity',0)})
+             .transition().duration(1000)
+             .attr('y',function(d,i) {return ys(d.Platform);})
+             .attr('width',function(d,i) {return xs(+d.Global_Sales_Platform);})
+             .attr('height',ys.bandwidth())
+             .style('fill','steelblue')
+
+            d3.select('svg')
+                  .append('g')
+                    .attr('transform','translate(70,430)')
+                    .call(d3.axisBottom(xs))
+              d3.select('svg')
+                .append('g')
+                .attr('transform','translate(70,30)')
+                .call(d3.axisLeft(ys))
+
+              d3.select('svg')
+                  .append("text")
+                    //.attr("text-anchor", "end")
+                    .attr('font-family', 'Saira')
+                    .attr('font-weight', 'bold')
+                    .attr('x', 500)
+                    .attr('y',490)
+                    .text('Global Sales (in Millions)');
+              d3.select('svg')
+                  .append('text')
+                  //.attr("text-anchor", "end")
+                  .attr("font-family", "Saira")
+                  .attr("font-weight", "bold")
+                  .attr('transform','translate (20,250) rotate(-90)')
+                //  .attr('x', 100)
+                //  .attr('y',200)
+                  .text('Platform');
+    };
+
+    function publisher(data1) {
+    //console.log('Hi from update');
+    console.clear();
+    d3.select('svg').selectAll('g').remove();
+    d3.select('svg').selectAll('text').remove();
+    var yearpicker = document.getElementById("selectyear").value;
+    // var fieldpicker = document.getElementById("selectfield").value;
+    console.log(yearpicker)
+    // console.log(fieldpicker)
+    filtered = data1.filter(function(d) { return d.Year === yearpicker});
+     //console.log(filtered);
+     xs = d3.scaleLinear().domain([d3.min(filtered, function(d) { return +d.Global_Sales_Publisher; }),d3.max(filtered, function(d) { return +d.Global_Sales_Publisher; })]).range([0,700]);
+     //console.log(xs.domain())
+     //console.log(vfield)
+     ys = d3.scaleBand().domain(filtered  .map(d=>d.Publisher)).range([0,400]).padding(0.2);
+     var div1 = d3.select("body").append("div1")
+     .attr("class", "tooltip")
+     .style("opacity", 0);
+
+      var svg = d3.select('svg')
+          .append('g')
+            .attr('transform','translate(210,30)') //${margin.left},${margin.top}
+
+       svg.selectAll('rect')
+            .data(filtered)
+            .enter()
+            .append('rect')
+            .on('mouseover', function(d,i) {
+                  div1.style("opacity", 1)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY) + "px")
+                    .html(d.Publisher+' : '+d.Global_Sales_Publisher+'M');
+                     })
+             .on('mouseout',function(){div1.style('opacity',0)})
+            .transition().duration(1000)
+              //.attr('x',20)
+              .attr('y',function(d,i) {return ys(d.Publisher);})
+              .attr('width',function(d,i) {return xs(+d.Global_Sales_Publisher);})
+              .attr('height',ys.bandwidth())
+              .style('fill','brown');
+
+              d3.select('svg')
+                  .append('g')
+                    .attr('transform','translate(210,430)')
+                    .call(d3.axisBottom(xs))
+              d3.select('svg')
+                .append('g')
+                .attr('transform','translate(210,30)')
+                .call(d3.axisLeft(ys))
+
+              d3.select('svg')
+                  .append("text")
+                    //.attr("text-anchor", "end")
+                    .attr('font-family', 'Saira')
+                    .attr('font-weight', 'bold')
+                    .attr('x', 500)
+                    .attr('y',490)
+                    .text('Global Sales (in Millions)');
+              d3.select('svg')
+                  .append('text')
+                  //.attr("text-anchor", "end")
+                  .attr("font-family", "Saira")
+                  .attr("font-weight", "bold")
+                  .attr('transform','translate (20,250) rotate(-90)')
+                //  .attr('x', 100)
+                //  .attr('y',200)
+                  .text('Publisher');
+    };
+
+
+    function Scene2() {
+      location.replace("Scene 2.html")
+  }
+
+  </script>
+
+  <table>
+    <tr>
+      <td><p>This chart is a chart</p></td>
+      <td><button onclick="Scene2()">Scene Two</button></td>
+      <td><button onclick="platform(data)">Platform</button></td>
+      <td><button onclick="publisher(data1)">Publisher</button></td>
+
+
+  </table>
+
+  <select id="selectyear">
+   <option selected="selected">Choose a number</option>
+   <option value=2010>2010</option>
+   <option value=2011>2011</option>
+   <option value=2012>2012</option>
+   <option value=2013>2013</option>
+   <option value=2014>2014</option>
+   <option value=2015>2015</option>
+   <option value=2016>2016</option>
+   <option value=2017>2017</option>
+   <option value=2018>2018</option>
+   <option value=2019>2019</option>
+   <option value=2020>2020</option>
+ </select>
+
+</body>
+</html>
