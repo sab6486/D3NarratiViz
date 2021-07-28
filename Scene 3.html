@@ -23,7 +23,6 @@ font: 12px sans-serif;
 background: lightgrey;
 border-radius: 8px;
 }
-}
 
 </style>
 
@@ -31,12 +30,39 @@ border-radius: 8px;
 <script src='https://d3js.org/d3.v5.min.js'></script>
 
 <head>
-  <title>CS416 Final Assignment</title> 
+  <title>CS416 Final Assignment - Scene 3</title>
 </head>
 <body onload='init()'>
-  <h1 style="display:inline-block;">Video Games Sales Analysis</h1>
-  <h5 style="display:inline-block;">(1984-2020)</h5>
-  <p>Scene3</p>
+  <table>
+    <tr><td><h1>Video Games Sales Analysis</h1></td><td><h5 style="padding-top:10px">(2010-2020)</h5></td></tr>
+  </table>
+
+  <table>
+    <tr><td>This is a user interactive section and below are sequence of steps to generate the visuals.</td></tr>
+    <tr><td>1.Pick a year.<tr><td>
+    <tr><td>2.Click on either the 'Platform' or 'Publisher' button to generate the chart.<tr><td>
+  </table>
+
+  <table>
+    <tr><td>
+      <select id="selectyear">
+       <option selected="selected">Choose a number</option>
+       <option value=2010>2010</option>
+       <option value=2011>2011</option>
+       <option value=2012>2012</option>
+       <option value=2013>2013</option>
+       <option value=2014>2014</option>
+       <option value=2015>2015</option>
+       <option value=2016>2016</option>
+       <option value=2017>2017</option>
+       <option value=2018>2018</option>
+       <option value=2019>2019</option>
+       <option value=2020>2020</option>
+     </select>
+   </td>
+    <td><button onclick="platform(data)">Platform</button></td>
+    <td><button onclick="publisher(data1)">Publisher</button></td>
+  </table>
   <svg id="svgMain" align='center' width="1000" height="500"></svg>
   <script>
     async function init() {
@@ -114,7 +140,7 @@ border-radius: 8px;
              .attr('y',function(d,i) {return ys(d.Platform);})
              .attr('width',function(d,i) {return xs(+d.Global_Sales_Platform);})
              .attr('height',ys.bandwidth())
-             .style('fill','steelblue')
+             .style('fill','darkkhaki')
 
             d3.select('svg')
                   .append('g')
@@ -159,7 +185,7 @@ border-radius: 8px;
      //console.log(xs.domain())
      //console.log(vfield)
      ys = d3.scaleBand().domain(filtered  .map(d=>d.Publisher)).range([0,400]).padding(0.2);
-     var div1 = d3.select("body").append("div1")
+     var div = d3.select("body").append("div1")
      .attr("class", "tooltip")
      .style("opacity", 0);
 
@@ -172,18 +198,18 @@ border-radius: 8px;
             .enter()
             .append('rect')
             .on('mouseover', function(d,i) {
-                  div1.style("opacity", 1)
+                  div.style("opacity", 1)
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY) + "px")
                     .html(d.Publisher+' : '+d.Global_Sales_Publisher+'M');
                      })
-             .on('mouseout',function(){div1.style('opacity',0)})
+             .on('mouseout',function(){div.style('opacity',0)})
             .transition().duration(1000)
               //.attr('x',20)
               .attr('y',function(d,i) {return ys(d.Publisher);})
               .attr('width',function(d,i) {return xs(+d.Global_Sales_Publisher);})
               .attr('height',ys.bandwidth())
-              .style('fill','brown');
+              .style('fill','lightcoral');
 
               d3.select('svg')
                   .append('g')
@@ -220,30 +246,9 @@ border-radius: 8px;
 
   </script>
 
-  <table>
-    <tr>
-      <td><p>This chart is a chart</p></td>
-      <td><button onclick="Scene2()">Scene Two</button></td>
-      <td><button onclick="platform(data)">Platform</button></td>
-      <td><button onclick="publisher(data1)">Publisher</button></td>
+<table><tr><td><button onclick="Scene2()">Scene Two</button></td></tr></table>
 
 
-  </table>
-
-  <select id="selectyear">
-   <option selected="selected">Choose a number</option>
-   <option value=2010>2010</option>
-   <option value=2011>2011</option>
-   <option value=2012>2012</option>
-   <option value=2013>2013</option>
-   <option value=2014>2014</option>
-   <option value=2015>2015</option>
-   <option value=2016>2016</option>
-   <option value=2017>2017</option>
-   <option value=2018>2018</option>
-   <option value=2019>2019</option>
-   <option value=2020>2020</option>
- </select>
 
 </body>
 </html>
