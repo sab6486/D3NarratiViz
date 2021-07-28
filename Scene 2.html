@@ -16,12 +16,13 @@ border-radius: 8px;
 <script src='https://d3js.org/d3.v5.min.js'></script>
 
 <head>
-  <title>CS416 Final Assignment</title>
+  <title>CS416 Final Assignment - Scene 2</title>
 </head>
 <body onload='init()'>
-  <h1 style="display:inline-block;">Video Games Sales Analysis</h1>
-  <h5 style="display:inline-block;">(1980-2020)</h5>
-  <p>Scene2</p>
+  <table>
+    <tr><td><h1>Video Games Sales Analysis</h1></td><td><h5 style="padding-top:10px">(1980-2020)</h5></td></tr>
+  </table>
+  <p>Below Bar chart shows the number of copies sold across the globe grouped by game developers.The number of copies sold are in Billions.</p>
   <svg id="svgMain" align='center' width="1000" height="500"></svg>
 
   <script>
@@ -55,7 +56,8 @@ var div = d3.select("body").append("div")
         .attr('y',function(d,i) {return ys(d.Publisher);})
         .attr('width',function(d,i) {return xs(+d.Global_Sales);})
         .attr('height',ys.bandwidth())
-        .style('fill','brown')
+        // .style('fill','brown')
+        .attr('fill', function(d){ if (d.Global_Sales >0.5) return 'firebrick' ; else return 'lightcoral'})
         .on('mouseover', function(d,i) {
             div.style("opacity", .9)
               .style("left", (d3.event.pageX) + "px")
@@ -88,7 +90,84 @@ var div = d3.select("body").append("div")
       .attr('transform','translate (20,250) rotate(-90)')
     //  .attr('x', 100)
     //  .attr('y',200)
-      .text('Publisher');
+      .text('Publisher')
+
+  d3.select('svg')
+      .append("line")
+      .attr('x1',650)
+      .attr('y1',70)
+      .attr('x2', 680)
+      .attr('y2',90)
+     .style('stroke', 'firebrick')
+      .style('stroke-width',1);
+  d3.select('svg')
+      .append("line")
+      .attr('x1',680)
+      .attr('y1',90)
+      .attr('x2', 890)
+      .attr('y2',90)
+      .style('stroke', 'firebrick')
+      .style('stroke-width',1);
+
+    d3.select('svg')
+        .append('text')
+        .attr('font-family', 'Calibri')
+        .attr('font-weight', 'bold')
+        .style('fill', 'firebrick')
+          .append('tspan')
+            .text('Dark red bars indicate game')
+            .attr('x', 680)
+            .attr('y',110)
+          .append('tspan')
+            .text('sales greater than 0.5B. Nintendo')
+            .attr('x', 680)
+            .attr('y',130)
+          .append('tspan')
+            .text('and Sony are leaders here too!')
+            .attr('x', 680)
+            .attr('y',150)
+          // .append('tspan')
+          //   .text('leaders in the industry.')
+          //   .attr('x', 680)
+          //   .attr('y',170);
+
+      d3.select('svg')
+          .append("line")
+          .attr('x1',320)
+          .attr('y1',200)
+          .attr('x2', 350)
+          .attr('y2',220)
+          .style('stroke', 'lightcoral')
+          .style('stroke-width',1);
+      d3.select('svg')
+          .append("line")
+          .attr('x1',350)
+          .attr('y1',220)
+          .attr('x2', 540)
+          .attr('y2',220)
+          .style('stroke', 'lightcoral')
+          .style('stroke-width',1);
+
+        d3.select('svg')
+            .append('text')
+            .attr('font-family', 'Calibri')
+            .attr('font-weight', 'bold')
+            .style('fill', 'lightcoral')
+             .append('tspan')
+                .text('Light red bars indicate niche')
+                .attr('x', 350)
+                .attr('y',240)
+             .append('tspan')
+                .text('players with sales less than 0.5B.')
+                .attr('x', 350)
+                .attr('y',260)
+            // .append('tspan')
+            //     .text('but greater than 0.01B.')
+            //     .attr('x', 350)
+            //     .attr('y',280)
+
+
+
   }
   function Scene1() {
     location.replace("index.html")
@@ -97,11 +176,20 @@ var div = d3.select("body").append("div")
     location.replace("Scene 3.html")
   }
   </script>
-  <table>
-    <tr>
-      <td><p>This chart is a chart</p></td>
-      <td><button onclick="Scene1()">Scene One</button></td>
-      <td><button onclick="Scene3()">Scene Three</button></td>
-  </table>
+
+<table>
+      <tr><td><button onclick="Scene1()">Previous</button></td>
+      <td style="padding-left:20px">
+      <table>
+        <tr> <td>We notice in this chart that some of the leading platform developers are also leading game developers e.g., Nintendo and Sony.</td></tr>
+        <tr><td>Console manufacturing companies that are also into production of video games may be intentionally manipulating the compatibility of games with their consoles.</td></tr>
+        <tr><td>This also explains their dominance over two decades. They can aggressively release new games to pair with release of new generations of console.</td></tr>
+        <tr><td>To stay in competition niche game developers can maybe adopt a strategy to partner with leading platforms and create sales campaigns around festive seasons.</td></tr>
+        <tr><td>The next section allows you to dive deeper for a year by year analysis of sales.Please click the next button to proceed.</td></tr>
+    </table>
+      </td>
+        <td style="padding-left:20px"><button onclick="Scene3()">Next</button></td>
+      </tr>
+</table>
 </body>
 </html>
