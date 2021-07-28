@@ -20,20 +20,23 @@ border-radius: 8px;
   <title>CS416 Final Assignment</title>
 </head>
 <body onload='init()'>
-  <h1 style="display:inline-block;">Video Games Sales Analysis</h1>
-  <h5 style="display:inline-block;">(1980-2020)</h5>
-  <p>Chart below</p>
+  <table>
+    <tr><td><h1>Video Games Sales Analysis</h1></td><td><h5 style="padding-top:10px">(1980-2020)</h5></td></tr>
+  </table>
+ <p>Below Bar chart shows the number of copies sold across the globe grouped by video game platforms.The number of copies sold are in Billions.</p>
   <svg id="svgMain" align='center' width="1000" height="500"></svg>
 
   <script>
     async function init() {
   //  data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsales.csv')
     data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsalesplatform.csv')
+
   //console.log(data);
   // var Platform = data.map(function(d) { return d.Platform })
   // var Salesdata = data.map(function(d) { return d.Global_Sales })
   // console.log(Platform)
   // console.log(Salesdata)
+  // function update(data){
   xs = d3.scaleLinear().domain([d3.min(data, function(d) { return +d.Global_Sales; }),d3.max(data, function(d) { return +d.Global_Sales; })]).range([0,900]);
   console.log(xs.domain())
   ys = d3.scaleBand().domain(data.map(d=>d.Platform)).range([0,400]).padding(0.2);
@@ -44,6 +47,7 @@ border-radius: 8px;
 var div = d3.select("body").append("div")
 .attr("class", "tooltip")
 .style("opacity", 0);
+
 
   d3.select('svg')
     .append('g')
@@ -56,7 +60,8 @@ var div = d3.select("body").append("div")
         .attr('y',function(d,i) {return ys(d.Platform);})
         .attr('width',function(d,i) {return xs(+d.Global_Sales);})
         .attr('height',ys.bandwidth())
-        .style('fill','steelblue')
+        // .style('fill','steelblue')
+        .attr('fill', function(d){ if (d.Global_Sales >0.5) return 'steelblue' ; else return 'lightsteelblue'})
         .on('mouseover', function(d,i) {
             div.style("opacity", .9)
               .style("left", (d3.event.pageX) + "px")
@@ -83,25 +88,145 @@ var div = d3.select("body").append("div")
         .text('Global Sales (in Billions)');
   d3.select('svg')
       .append('text')
-      //.attr("text-anchor", "end")
       .attr("font-family", "Saira")
       .attr("font-weight", "bold")
       .attr('transform','translate (20,250) rotate(-90)')
     //  .attr('x', 100)
     //  .attr('y',200)
       .text('Platform');
-  }
+
+d3.select('svg')
+    .append("line")
+    .attr('x1',760)
+    .attr('y1',70)
+    .attr('x2', 800)
+    .attr('y2',100)
+    .style('stroke', 'steelblue')
+    .style('stroke-width',1);
+d3.select('svg')
+    .append("line")
+    .attr('x1',800)
+    .attr('y1',100)
+    .attr('x2', 970)
+    .attr('y2',100)
+    .style('stroke', 'steelblue')
+    .style('stroke-width',1);
+
+  d3.select('svg')
+      .append('text')
+      .attr('font-family', 'Calibri')
+      .attr('font-weight', 'bold')
+      .style('fill', 'steelblue')
+        .append('tspan')
+          .text('Blue bars indicate game')
+          .attr('x', 800)
+          .attr('y',120)
+        .append('tspan')
+          .text('sales greater than 0.5B.')
+          .attr('x', 800)
+          .attr('y',140)
+        .append('tspan')
+          .text('Sony, Microsoft and Nintendo')
+          .attr('x', 800)
+          .attr('y',160)
+        .append('tspan')
+          .text('platforms lead. Why?')
+          .attr('x', 800)
+          .attr('y',180)
+        // .append('tspan')
+        //   .text('Are they better Consoles')
+        //   .attr('x', 800)
+        //   .attr('y',200)
+        // .append('tspan')
+        //   .text('OR')
+        //   .attr('x', 800)
+        //   .attr('y',220)
+        // .append('tspan')
+        //   .text('is it just better Marketting?')
+        //   .attr('x', 800)
+        //   .attr('y',240);
+
+    d3.select('svg')
+        .append("line")
+        .attr('x1',280)
+        .attr('y1',200)
+        .attr('x2', 310)
+        .attr('y2',220)
+        .style('stroke', 'lightsteelblue')
+        .style('stroke-width',1);
+    d3.select('svg')
+        .append("line")
+        .attr('x1',310)
+        .attr('y1',220)
+        .attr('x2', 510)
+        .attr('y2',220)
+        .style('stroke', 'lightsteelblue')
+        .style('stroke-width',1);
+
+    d3.select('svg')
+        .append('text')
+        .attr('font-family', 'Calibri')
+        .attr('font-weight', 'bold')
+        .style('fill', 'lightsteelblue')
+         .append('tspan')
+          .text('Light blue bars are new generation')
+          .attr('x', 310)
+          .attr('y',240)
+         .append('tspan')
+            .text('consoles but are lagging in game sales.')
+            .attr('x', 310)
+            .attr('y',260)
+        .append('tspan')
+            .text('Why?')
+            .attr('x', 310)
+            .attr('y',280)
+
+
+// const annotations = [
+//           {
+//           note: {
+//             label: "Thanks to its marketing policy, in 2021 France has reached the third position.",
+//             title: "France product sales",
+//             wrap: 200,
+//             padding: 10
+//           },
+//           color: ["#cc0000"],
+//           x:500,
+//           y:200
+//           // dy: 100,
+//           // dx: 100
+//          }]
+//
+// const makeAnnotations = d3.annotation()
+//   .annotations(annotations)
+//
+// d3.select('svg').append("g")
+//    // .attr("class", "annotation-group")
+//   .call(makeAnnotations)
+}
 
   function Scene2() {
     location.replace("Scene 2.html")
   }
+
   </script>
 
-  <table>
-    <tr>
-      <td><p>This chart is a chart</p></td>
-      <td><button onclick="Scene2()">Scene Two</button></td>
+<table>
+  <tr>
+  <td><table>
+    <tr> <td>Over the last two decades platform developers such as Sony (PS,PS2,PS3,PS4), Microsoft (XB,X360,Xone), Nintendo (DS,3DS,Wii) have dominated the industry.</td></tr>
+    <tr><td>Some questions that come to mind are as below:</td></tr>
+    <tr><td>While they build new generation consoles every few years it appears that the older generation machines contributed to more game sales. What could be the
+        reason for this?</td></tr>
+    <tr><td>Why are these companies dominating the industry?</td></tr>
+    <tr><td>What marketing strategies can be applied to further increase sales?</td></tr>
+    <tr><td>Let's look for answers in the next slide. Please click the button below.</td></tr>
   </table>
+  </td>
+</tr>
+<tr></tr>
+ <tr><td><button onclick="Scene2()">Let's Investigate!</button></td></tr>
+</table>
 
 </body>
 </html>
