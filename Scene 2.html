@@ -137,7 +137,7 @@ var div = d3.select("body").append("div")
           .attr('y1',200)
           .attr('x2', 350)
           .attr('y2',220)
-          .style('stroke', 'lightcoral')
+          .style('stroke', 'firebrick')
           .style('stroke-width',1);
       d3.select('svg')
           .append("line")
@@ -145,14 +145,14 @@ var div = d3.select("body").append("div")
           .attr('y1',220)
           .attr('x2', 540)
           .attr('y2',220)
-          .style('stroke', 'lightcoral')
+          .style('stroke', 'firebrick')
           .style('stroke-width',1);
 
         d3.select('svg')
             .append('text')
             .attr('font-family', 'Calibri')
             .attr('font-weight', 'bold')
-            .style('fill', 'lightcoral')
+            .style('fill', 'firebrick')
              .append('tspan')
                 .text('Light red bars indicate niche')
                 .attr('x', 350)
@@ -180,13 +180,15 @@ var div = d3.select("body").append("div")
 <table>
       <tr><td><button onclick="Scene1()">Previous</button></td>
       <td style="padding-left:20px">
-      <table>
-        <tr> <td>We notice in this chart that some of the leading platform developers are also leading game developers e.g., Nintendo and Sony.</td></tr>
-        <tr><td>Console manufacturing companies that are also into production of video games may be intentionally manipulating the compatibility of games with their consoles.</td></tr>
-        <tr><td>This also explains their dominance over two decades. They can aggressively release new games to pair with release of new generations of console.</td></tr>
-        <tr><td>To stay in competition niche game developers can maybe adopt a strategy to partner with leading platforms and create sales campaigns around festive seasons.</td></tr>
-        <tr><td>The next section allows you to dive deeper for a year by year analysis of sales.Please click the next button to proceed.</td></tr>
-    </table>
+        <table>
+          <tr> <td>We notice in this chart that some of the leading platform developers are also leading game developers e.g., Nintendo and Sony.</td></tr>
+          <tr><td>Console manufacturing companies that are also into production of video games may be intentionally manipulating the compatibility of games with their consoles.</td></tr>
+          <tr><td>This also explains their dominance over the years. They can aggressively release new games to pair with release of new generations of consoles while at the same time releasing games that are backward compatible to please older customers.</td></tr>
+          <tr><td>These console companies may compete with each other by partnering with the other niche game developers. They may create sales campaigns around festive seasons to release new consoles with older games or vice versa.</td></tr>
+          <tr><td> In short, the trend over the years suggests that there is some symbiotic relationship between platform and game developers. A detailed study of this can provide insight into future collaborations between them.
+          <tr><td>The next section allows you to dive deeper for a year by year analysis of sales.Please click the next button to proceed.</td></tr>
+      </table>
+
       </td>
         <td style="padding-left:20px"><button onclick="Scene3()">Next</button></td>
       </tr>
