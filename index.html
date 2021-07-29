@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<style> /* set the CSS */
+<style> /* set the CSS for the tooltip*/
 div.tooltip {
 position: absolute;
 text-align: center;
@@ -28,7 +28,6 @@ border-radius: 8px;
 
   <script>
     async function init() {
-  //  data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsales.csv')
     data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsalesplatform.csv')
 
   //console.log(data);
@@ -40,15 +39,12 @@ border-radius: 8px;
   xs = d3.scaleLinear().domain([d3.min(data, function(d) { return +d.Global_Sales; }),d3.max(data, function(d) { return +d.Global_Sales; })]).range([0,900]);
   console.log(xs.domain())
   ys = d3.scaleBand().domain(data.map(d=>d.Platform)).range([0,400]).padding(0.2);
-  //const margin={top:50, right:20,bottom:20, left:50};
-//  console.log(ys.domain())
-//console.log(ys.bandwidth())
-//  cs = d3.scaleLinear().domain(data.map(d=>d.Platform)).range(['blue','orange']);
+
 var div = d3.select("body").append("div")
 .attr("class", "tooltip")
 .style("opacity", 0);
 
-
+//Creating the bar chart
   d3.select('svg')
     .append('g')
       .attr('transform','translate(70,30)') //${margin.left},${margin.top}
@@ -69,6 +65,7 @@ var div = d3.select("body").append("div")
               div.html(d.Platform+' : '+d.Global_Sales+'B');
                })
         .on('mouseout',function(){div.style('opacity',0)});
+//creating the axes      
   d3.select('svg')
       .append('g')
         .attr('transform','translate(70,430)')
@@ -78,9 +75,9 @@ var div = d3.select("body").append("div")
     .attr('transform','translate(70,30)')
     .call(d3.axisLeft(ys))
 
+//text for axes
   d3.select('svg')
       .append("text")
-        //.attr("text-anchor", "end")
         .attr('font-family', 'Saira')
         .attr('font-weight', 'bold')
         .attr('x', 500)
@@ -91,10 +88,9 @@ var div = d3.select("body").append("div")
       .attr("font-family", "Saira")
       .attr("font-weight", "bold")
       .attr('transform','translate (20,250) rotate(-90)')
-    //  .attr('x', 100)
-    //  .attr('y',200)
       .text('Platform');
 
+//Annotations
 d3.select('svg')
     .append("line")
     .attr('x1',760)
@@ -112,99 +108,68 @@ d3.select('svg')
     .style('stroke', 'steelblue')
     .style('stroke-width',1);
 
+d3.select('svg')
+    .append('text')
+    .attr('font-family', 'Calibri')
+    .attr('font-weight', 'bold')
+    .style('fill', 'steelblue')
+      .append('tspan')
+        .text('Blue bars indicate game')
+        .attr('x', 800)
+        .attr('y',120)
+      .append('tspan')
+        .text('sales greater than 0.5B.')
+        .attr('x', 800)
+        .attr('y',140)
+      .append('tspan')
+        .text('Sony, Microsoft and Nintendo')
+        .attr('x', 800)
+        .attr('y',160)
+      .append('tspan')
+        .text('platforms lead. Why?')
+        .attr('x', 800)
+        .attr('y',180)
+
+  d3.select('svg')
+      .append("line")
+       .attr('x1',280)
+       .attr('y1',200)
+       .attr('x2', 310)
+       .attr('y2',220)
+       .style('stroke', 'steelblue')
+       .style('stroke-width',1);
+  d3.select('svg')
+      .append("line")
+       .attr('x1',310)
+       .attr('y1',220)
+       .attr('x2', 510)
+       .attr('y2',220)
+       .style('stroke', 'steelblue')
+       .style('stroke-width',1);
+
   d3.select('svg')
       .append('text')
-      .attr('font-family', 'Calibri')
-      .attr('font-weight', 'bold')
-      .style('fill', 'steelblue')
-        .append('tspan')
-          .text('Blue bars indicate game')
-          .attr('x', 800)
-          .attr('y',120)
-        .append('tspan')
-          .text('sales greater than 0.5B.')
-          .attr('x', 800)
-          .attr('y',140)
-        .append('tspan')
-          .text('Sony, Microsoft and Nintendo')
-          .attr('x', 800)
-          .attr('y',160)
-        .append('tspan')
-          .text('platforms lead. Why?')
-          .attr('x', 800)
-          .attr('y',180)
-        // .append('tspan')
-        //   .text('Are they better Consoles')
-        //   .attr('x', 800)
-        //   .attr('y',200)
-        // .append('tspan')
-        //   .text('OR')
-        //   .attr('x', 800)
-        //   .attr('y',220)
-        // .append('tspan')
-        //   .text('is it just better Marketting?')
-        //   .attr('x', 800)
-        //   .attr('y',240);
-
-    d3.select('svg')
-        .append("line")
-        .attr('x1',280)
-        .attr('y1',200)
-        .attr('x2', 310)
-        .attr('y2',220)
-        .style('stroke', 'steelblue')
-        .style('stroke-width',1);
-    d3.select('svg')
-        .append("line")
-        .attr('x1',310)
-        .attr('y1',220)
-        .attr('x2', 510)
-        .attr('y2',220)
-        .style('stroke', 'steelblue')
-        .style('stroke-width',1);
-
-    d3.select('svg')
-        .append('text')
         .attr('font-family', 'Calibri')
         .attr('font-weight', 'bold')
         .style('fill', 'steelblue')
-         .append('tspan')
-          .text('Light blue bars indicate sales less ')
-          .attr('x', 310)
-          .attr('y',240)
-         .append('tspan')
-            .text('than 0.5B.Some new generation ')
-            .attr('x', 310)
-            .attr('y',260)
-        .append('tspan')
-            .text('consoles are lagging (PS4,XOne). Why?')
-            .attr('x', 310)
-            .attr('y',280)
+      .append('tspan')
+        .text('Light blue bars indicate sales less ')
+        .attr('x', 310)
+        .attr('y',240)
+      .append('tspan')
+        .text('than 0.5B.Some new generation ')
+        .attr('x', 310)
+        .attr('y',260)
+      .append('tspan')
+        .text('consoles are lagging (PS4,XOne).')
+        .attr('x', 310)
+        .attr('y',280)
+      .append('tspan')
+        .text('Why?')
+        .attr('x', 310)
+        .attr('y',300)
 
-
-// const annotations = [
-//           {
-//           note: {
-//             label: "Thanks to its marketing policy, in 2021 France has reached the third position.",
-//             title: "France product sales",
-//             wrap: 200,
-//             padding: 10
-//           },
-//           color: ["#cc0000"],
-//           x:500,
-//           y:200
-//           // dy: 100,
-//           // dx: 100
-//          }]
-//
-// const makeAnnotations = d3.annotation()
-//   .annotations(annotations)
-//
-// d3.select('svg').append("g")
-//    // .attr("class", "annotation-group")
-//   .call(makeAnnotations)
 }
-
   function Scene2() {
     location.replace("Scene 2.html")
   }
