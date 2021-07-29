@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<style> /* set the CSS */
+<style>/* set the CSS for the tooltip*/
 
 div.tooltip {
 position: absolute;
@@ -38,12 +38,15 @@ border-radius: 8px;
   </table>
 
   <table>
-    <tr><td> This section is limited to ten years of sales only. The number of copies sold are in millions. </td></tr>
-    <tr><td>Analysts can study the leaders of
-      each year and determine which platform and publisher can form a team to drive up sales in the future.</td></tr>
-    <tr><td>This is a user interactive section and below are the sequence of steps to generate/update the visuals.</td></tr>
+    <tr><td> This section is limited to the last ten years of sales only. The number of copies sold are in millions. </td></tr>
+    <tr><td>The purpose of this section is to give you a <b>decision making experience</b>. It is designed to be interactive.</tr></td>
+     <tr><td>If you were the sales manager at one of these game publishers how would you drive up sales? Make a note of who the platform leaders
+       are and observe trends for each year and decide which would be the best console to pair with in the future.</td></tr>
+    <tr><td> If you were a campaign manager working at the top console manufactures determine which of the niche game designers you can pair up with.</td></tr>
+    <tr><td>Below are the sequence of steps to generate/update the visuals.</td></tr>
     <tr><td>1.Pick a year from the dropdown.<tr><td>
     <tr><td>2.Click on either the 'Platform' or 'Publisher' button to generate the chart.<tr><td>
+    <tr><td>3.Mouseover the bars for a popup that gives you the exact number of copies sold in millions.<tr><td>
   </table>
 
   <table>
@@ -71,42 +74,10 @@ border-radius: 8px;
   <svg id="svgMain" align='center' width="1000" height="500"></svg>
   <script>
     async function init() {
-  //  data=await d3.csv('https://raw.githubusercontent.com/sab6486/D3NarratiViz/main/vgsales.csv')
     data=await d3.csv('https://raw.githubusercontent.com/sab6486/sab6486.github.io/main/platform_year.csv')
     data1=await d3.csv('https://raw.githubusercontent.com/sab6486/sab6486.github.io/main/publisher_year.csv')
-//     var values;
-//
-//    data.forEach(function(d){
-///    values = d3.nest()
-//   .key(function(d) {return d["Platform"];})
-//   .rollup((function(d) {
-//   return {
-//       Global_Sales: d3.sum(d, function(e) { return e["Global_Sales"]; }),
-//   };
-// }))
-// .entries(data);
-// });
-
-//console.log(values)
-  //console.log(data);
-  // var Platform = data.map(function(d) { return d.Platform })
-  // var Salesdata = data.map(function(d) { return d.Global_Sales })
-   //Year = data.map(function(d) { return d.Year })
-   //let result = objArray.map(a => a.foo);
-  // console.log(Platform)
-  // console.log(Salesdata)
-  //console.log(Year)
-  //xs = d3.scaleLinear().domain([d3.min(data, function(d) { return +d.Global_Sales; }),d3.max(data, function(d) { return +d.Global_Sales; })]).range([0,900]);
-  //console.log(xs.domain())
-  //ys = d3.scaleBand().domain(data.map(d=>d.Platform)).range([0,400]).padding(0.2);
-  //const margin={top:50, right:20,bottom:20, left:50};
-//  console.log(ys.domain())
-//console.log(ys.bandwidth())
-//  cs = d3.scaleLinear().domain(data.map(d=>d.Platform)).range(['blue','orange']);
-
-
     }
-
+//function only for platform realted data
     function platform(data) {
     //console.log('Hi from update');
     console.clear();
@@ -126,7 +97,7 @@ border-radius: 8px;
      var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
-
+//Creating the bar chart
       var svg = d3.select('svg')
           .append('g')
             .attr('transform','translate(70,30)') //${margin.left},${margin.top}
@@ -146,35 +117,31 @@ border-radius: 8px;
              .attr('width',function(d,i) {return xs(+d.Global_Sales_Platform);})
              .attr('height',ys.bandwidth())
              .style('fill','darkkhaki')
-
-            d3.select('svg')
-                  .append('g')
-                    .attr('transform','translate(70,430)')
-                    .call(d3.axisBottom(xs))
-              d3.select('svg')
-                .append('g')
-                .attr('transform','translate(70,30)')
-                .call(d3.axisLeft(ys))
-
-              d3.select('svg')
-                  .append("text")
-                    //.attr("text-anchor", "end")
-                    .attr('font-family', 'Saira')
-                    .attr('font-weight', 'bold')
-                    .attr('x', 500)
-                    .attr('y',490)
-                    .text('Global Sales (in Millions)');
-              d3.select('svg')
-                  .append('text')
-                  //.attr("text-anchor", "end")
-                  .attr("font-family", "Saira")
-                  .attr("font-weight", "bold")
-                  .attr('transform','translate (20,250) rotate(-90)')
-                //  .attr('x', 100)
-                //  .attr('y',200)
-                  .text('Platform');
+//creating the axes
+      d3.select('svg')
+          .append('g')
+            .attr('transform','translate(70,430)')
+            .call(d3.axisBottom(xs))
+      d3.select('svg')
+          .append('g')
+           .attr('transform','translate(70,30)')
+           .call(d3.axisLeft(ys))
+//text for axes
+      d3.select('svg')
+          .append("text")
+            .attr('font-family', 'Saira')
+            .attr('font-weight', 'bold')
+            .attr('x', 500)
+            .attr('y',490)
+            .text('Global Sales (in Millions)');
+      d3.select('svg')
+          .append('text')
+            .attr("font-family", "Saira")
+            .attr("font-weight", "bold")
+            .attr('transform','translate (20,250) rotate(-90)')
+            .text('Platform');
     };
-
+//function only for publisher realted data
     function publisher(data1) {
     //console.log('Hi from update');
     console.clear();
@@ -197,7 +164,7 @@ border-radius: 8px;
       var svg = d3.select('svg')
           .append('g')
             .attr('transform','translate(210,30)') //${margin.left},${margin.top}
-
+//Creating the bar chart
        svg.selectAll('rect')
             .data(filtered)
             .enter()
@@ -215,33 +182,29 @@ border-radius: 8px;
               .attr('width',function(d,i) {return xs(+d.Global_Sales_Publisher);})
               .attr('height',ys.bandwidth())
               .style('fill','lightcoral');
-
-              d3.select('svg')
-                  .append('g')
-                    .attr('transform','translate(210,430)')
-                    .call(d3.axisBottom(xs))
-              d3.select('svg')
-                .append('g')
-                .attr('transform','translate(210,30)')
-                .call(d3.axisLeft(ys))
-
-              d3.select('svg')
-                  .append("text")
-                    //.attr("text-anchor", "end")
-                    .attr('font-family', 'Saira')
-                    .attr('font-weight', 'bold')
-                    .attr('x', 500)
-                    .attr('y',490)
-                    .text('Global Sales (in Millions)');
-              d3.select('svg')
-                  .append('text')
-                  //.attr("text-anchor", "end")
-                  .attr("font-family", "Saira")
-                  .attr("font-weight", "bold")
-                  .attr('transform','translate (20,250) rotate(-90)')
-                //  .attr('x', 100)
-                //  .attr('y',200)
-                  .text('Publisher');
+//creating the axes
+        d3.select('svg')
+            .append('g')
+              .attr('transform','translate(210,430)')
+              .call(d3.axisBottom(xs))
+        d3.select('svg')
+            .append('g')
+             .attr('transform','translate(210,30)')
+             .call(d3.axisLeft(ys))
+//text for axes
+        d3.select('svg')
+            .append("text")
+              .attr('font-family', 'Saira')
+              .attr('font-weight', 'bold')
+              .attr('x', 500)
+              .attr('y',490)
+              .text('Global Sales (in Millions)');
+        d3.select('svg')
+          .append('text')
+             .attr("font-family", "Saira")
+             .attr("font-weight", "bold")
+             .attr('transform','translate (20,250) rotate(-90)')
+            .text('Publisher');
     };
 
 
@@ -250,10 +213,6 @@ border-radius: 8px;
   }
 
   </script>
-
-
-
-
 
 </body>
 </html>
